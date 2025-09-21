@@ -120,14 +120,20 @@
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global variables provided by the canvas environment
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
+        // Your Firebase configuration object
+        const firebaseConfig = {
+            apiKey: "AIzaSyA2t13EpyRcaqyBKhqmgabOpJd4SpNfvvk",
+            authDomain: "tumaini-chess-club.firebaseapp.com",
+            projectId: "tumaini-chess-club",
+            storageBucket: "tumaini-chess-club.firebasestorage.app",
+            messagingSenderId: "13990913102",
+            appId: "1:13990913102:web:6e1b081d294e3ae688cf1f",
+            measurementId: "G-8W0VWHH2GP"
+        };
+        
         // UI elements
         const formPanel = document.getElementById('form-panel');
         const registrationForm = document.getElementById('registrationForm');
@@ -162,28 +168,17 @@
                 app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
+                
+                // Sign in anonymously
+                const userCredential = await signInAnonymously(auth);
+                userId = userCredential.user.uid;
+                userIdDisplay.textContent = userId;
+                setupRealtimeListener();
+                handleUrlParameters();
 
-                // Authenticate the user with the provided token or anonymously
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
-
-                // Wait for auth state to be ready
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        userIdDisplay.textContent = userId;
-                        setupRealtimeListener();
-                        handleUrlParameters();
-                    } else {
-                        // User is signed out.
-                    }
-                });
             } catch (error) {
                 console.error("Firebase initialization or authentication failed:", error);
-                showMessage("Failed to initialize the app. Please try again.", 'error');
+                showMessage("Failed to initialize the app. Please check the console for more details.", 'error');
             }
         }
 
@@ -200,7 +195,7 @@
 
         async function displaySingleRegistration(docId) {
             try {
-                const docRef = doc(db, `/artifacts/${appId}/public/data/chess_registrations`, docId);
+                const docRef = doc(db, 'chess_registrations', docId);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
@@ -250,7 +245,7 @@
             const rating = document.getElementById('rating').value;
             const mpesaCode = document.getElementById('mpesaCode').value;
             
-            const playerDocRef = doc(db, `/artifacts/${appId}/public/data/chess_registrations`, userId);
+            const playerDocRef = doc(db, 'chess_registrations', userId);
 
             try {
                 await setDoc(playerDocRef, {
@@ -286,7 +281,7 @@
 
         // Set up real-time listener for players
         function setupRealtimeListener() {
-            const playersRef = collection(db, `/artifacts/${appId}/public/data/chess_registrations`);
+            const playersRef = collection(db, 'chess_registrations');
             
             // onSnapshot will get all docs and listen for changes
             onSnapshot(playersRef, (querySnapshot) => {
@@ -336,4 +331,3 @@
     </script>
 </body>
 </html>
-
