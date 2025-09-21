@@ -1,131 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tumaini Chess Tournament Registration</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
-  body {
-    margin: 0; padding: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #4a90e2, #9013fe);
-    color: #fff;
-    display: flex; justify-content: center; align-items: center;
-    min-height: 100vh;
-  }
-  .container {
-    background: rgba(255,255,255,0.12);
-    padding: 2rem 3rem;
-    border-radius: 16px;
-    max-width: 480px;
-    width: 100%;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-    backdrop-filter: blur(10px);
-  }
-  h1 {
-    font-weight: 700;
-    font-size: 2.8rem;
-    margin-bottom: 1rem;
-    text-align: center;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
-  }
-  form label {
-    display: block;
-    margin-top: 1rem;
-    margin-bottom: 0.3rem;
-    font-weight: 600;
-  }
-  form input[type=text], form input[type=number], form select {
-    width: 100%;
-    padding: 0.6rem;
-    border-radius: 6px;
-    border: none;
-    font-size: 1rem;
-  }
-  form input[type=radio] {
-    margin-right: 0.5rem;
-    accent-color: #9013fe;
-  }
-  .gender-group label {
-    display: inline-block;
-    margin-right: 1.2rem;
-    font-weight: 500;
-  }
-  button {
-    margin-top: 2rem;
-    background: #9013fe;
-    border: none;
-    padding: 0.9rem 1.6rem;
-    border-radius: 8px;
-    width: 100%;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: white;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  button:hover {
-    background: #7a0ed6;
-  }
-  .success-message {
-    margin-top: 1.5rem;
-    font-weight: 600;
-    color: #c4f1be;
-    text-align: center;
-    display: none;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Tournament Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.3s ease-in-out;
+            z-index: 100;
+        }
+        .message-box.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
 </head>
-<body>
-<div class="container">
-  <h1>Tumaini Chess Tournament Registration</h1>
-  <form id="registrationForm" action="https://formsubmit.co/tumainichessclub@gmail.com" method="POST">
-    <label for="firstName">First Name *</label>
-    <input type="text" name="firstName" id="firstName" required />
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
 
-    <label for="lastName">Last Name *</label>
-    <input type="text" name="lastName" id="lastName" required />
+    <!-- Message Box -->
+    <div id="messageBox" class="message-box bg-green-500 text-white hidden"></div>
+    
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-xl overflow-hidden md:flex">
+        
+        <!-- Registration Form/Link Panel -->
+        <div id="form-panel" class="w-full md:w-1/2 p-8 md:p-12">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2 text-center">Tumaini Chess Academy</h1>
+            <h1 class="text-2xl font-bold text-gray-700 mb-6 text-center">Chess Tournament</h1>
+            <p class="text-gray-600 mb-8 text-center">Register to join the next tournament. All players welcome!</p>
 
-    <label>Gender *</label>
-    <div class="gender-group">
-      <label><input type="radio" name="gender" value="Male" required />Male</label>
-      <label><input type="radio" name="gender" value="Female" required />Female</label>
-      <label><input type="radio" name="gender" value="Other" required />Other</label>
+            <form id="registrationForm" class="space-y-6">
+                <div>
+                    <label for="name" class="block text-gray-700 font-medium mb-2">Player Name</label>
+                    <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-all">
+                </div>
+                <div>
+                    <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-all">
+                </div>
+                <div>
+                    <label for="ageCategory" class="block text-gray-700 font-medium mb-2">Age Category</label>
+                    <select id="ageCategory" name="ageCategory" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-all">
+                        <option value="">Select Age Category</option>
+                        <option value="under 7">Under 7</option>
+                        <option value="under 11">Under 11</option>
+                        <option value="under 13">Under 13</option>
+                        <option value="under 15">Under 15</option>
+                        <option value="under 17">Under 17</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="gender" class="block text-gray-700 font-medium mb-2">Gender</label>
+                    <select id="gender" name="gender" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-all">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="rating" class="block text-gray-700 font-medium mb-2">Chess Rating (Optional)</label>
+                    <input type="number" id="rating" name="rating" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-all">
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <p class="font-semibold text-blue-700 mb-2">Payment Instructions (M-Pesa)</p>
+                    <p class="text-gray-700 text-sm">Send your payment to the following number via M-Pesa and enter the payment code below:</p>
+                    <p class="font-bold text-blue-800 text-lg mt-2">+254 727 806105</p>
+                    <p class="text-gray-700 text-sm mt-1">This number is available for calls and WhatsApp.</p>
+                </div>
+                <div>
+                    <label for="mpesaCode" class="block text-gray-700 font-medium mb-2">M-Pesa Payment Code</label>
+                    <input type="text" id="mpesaCode" name="mpesaCode" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-all">
+                </div>
+                <div class="flex justify-center">
+                    <button type="submit" class="w-full md:w-auto px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all">Register</button>
+                </div>
+            </form>
+
+            <!-- Registration Link Section -->
+            <div id="linkSection" class="hidden mt-8 text-center bg-gray-50 p-6 rounded-lg border border-dashed border-gray-300">
+                <p class="text-gray-700 font-semibold mb-2">Your unique registration link:</p>
+                <div class="flex items-center justify-center space-x-2">
+                    <input type="text" id="registrationLinkInput" readonly class="flex-grow bg-white px-4 py-2 border border-gray-300 rounded-lg text-gray-800 font-mono text-sm sm:text-base cursor-text">
+                    <button id="copyButton" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all">Copy</button>
+                </div>
+                <p class="text-gray-500 mt-2 text-sm">Share this link to show your registration details.</p>
+            </div>
+        </div>
+
+        <!-- Registered Players Panel -->
+        <div id="players-panel" class="w-full md:w-1/2 bg-gray-50 p-8 md:p-12 md:rounded-r-2xl border-t md:border-t-0 md:border-l border-gray-200">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Registered Players</h2>
+            <div id="player-list" class="space-y-4 max-h-[400px] overflow-y-auto">
+                <!-- Players will be listed here dynamically -->
+                <div id="loading" class="flex justify-center items-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4 text-center text-gray-500 text-sm">
+        <p>Your unique User ID: <span id="userIdDisplay" class="font-mono text-xs md:text-sm">...</span></p>
     </div>
 
-    <label for="age">Age *</label>
-    <input type="number" name="age" id="age" min="3" max="18" required />
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    <label for="category">Category *</label>
-    <select name="category" id="category" required>
-      <option value="" disabled selected>Select category</option>
-      <option value="Under 7">Under 7</option>
-      <option value="Under 11">Under 11</option>
-      <option value="Under 13">Under 13</option>
-      <option value="Under 15">Under 15</option>
-      <option value="Under 17">Under 17</option>
-    </select>
+        // Global variables provided by the canvas environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
-    <!-- optional, disable captcha to avoid spam -->
-    <input type="hidden" name="_captcha" value="false" />
-    <input type="hidden" name="_subject" value="New Tournament Registration" />
-    <input type="hidden" name="_next" value="https://tumainichessacademy.github.io/thank-you.html" />
+        // UI elements
+        const formPanel = document.getElementById('form-panel');
+        const registrationForm = document.getElementById('registrationForm');
+        const linkSection = document.getElementById('linkSection');
+        const registrationLinkInput = document.getElementById('registrationLinkInput');
+        const copyButton = document.getElementById('copyButton');
+        const playerList = document.getElementById('player-list');
+        const messageBox = document.getElementById('messageBox');
+        const userIdDisplay = document.getElementById('userIdDisplay');
+        const loadingSpinner = document.getElementById('loading');
+        
+        // Firebase instances
+        let app, db, auth, userId;
 
-    <button type="submit">Register</button>
-  </form>
-  <div class="success-message" id="successMessage">Thank you for registering! We received your details.</div>
-</div>
+        // Function to show a custom message box
+        function showMessage(message, type = 'success') {
+            messageBox.textContent = message;
+            if (type === 'success') {
+                messageBox.className = 'message-box bg-green-500 text-white';
+            } else if (type === 'error') {
+                messageBox.className = 'message-box bg-red-500 text-white';
+            }
+            messageBox.classList.remove('hidden');
+            setTimeout(() => {
+                messageBox.classList.add('hidden');
+            }, 3000);
+        }
 
-<script>
-  const form = document.getElementById('registrationForm');
-  const successMessage = document.getElementById('successMessage');
+        // Initialize Firebase
+        async function initializeFirebase() {
+            try {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
 
-  form.addEventListener('submit', e => {
-    // no client side AJAX; Formsubmit handles form submit and redirect
-    // But if you want to handle with JavaScript, then use fetch here instead
-    successMessage.style.display = 'block';
-  });
-</script>
+                // Authenticate the user with the provided token or anonymously
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                // Wait for auth state to be ready
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        userIdDisplay.textContent = userId;
+                        setupRealtimeListener();
+                        handleUrlParameters();
+                    } else {
+                        // User is signed out.
+                    }
+                });
+            } catch (error) {
+                console.error("Firebase initialization or authentication failed:", error);
+                showMessage("Failed to initialize the app. Please try again.", 'error');
+            }
+        }
+
+        // Handle URL parameters to show a specific registration
+        function handleUrlParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const registrationId = urlParams.get('registrationId');
+            if (registrationId) {
+                // Fetch and display details for a specific registration
+                displaySingleRegistration(registrationId);
+                formPanel.classList.add('hidden'); // Hide the form
+            }
+        }
+
+        async function displaySingleRegistration(docId) {
+            try {
+                const docRef = doc(db, `/artifacts/${appId}/public/data/chess_registrations`, docId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    formPanel.innerHTML = `
+                        <div class="text-center p-8">
+                            <h1 class="text-3xl font-bold text-gray-800 mb-4">Registration Details</h1>
+                            <p class="text-lg text-gray-700 mb-2"><strong>Player:</strong> ${data.name}</p>
+                            <p class="text-gray-600 mb-2"><strong>Email:</strong> ${data.email}</p>
+                            <p class="text-gray-600 mb-2"><strong>Age Category:</strong> ${data.ageCategory}</p>
+                            <p class="text-gray-600 mb-2"><strong>Gender:</strong> ${data.gender}</p>
+                            ${data.rating ? `<p class="text-gray-600 mb-2"><strong>Rating:</strong> ${data.rating}</p>` : ''}
+                            <p class="text-gray-600 mb-4"><strong>M-Pesa Code:</strong> ${data.mpesaCode}</p>
+                            <p class="text-gray-500 text-sm">Registration ID: ${docId}</p>
+                            <div class="mt-6 flex flex-col items-center">
+                                <a href="${window.location.origin}" class="text-blue-600 hover:text-blue-800 font-semibold mb-2">&larr; Back to Registration Form</a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    formPanel.innerHTML = `
+                        <div class="text-center p-8">
+                            <h1 class="text-3xl font-bold text-gray-800 mb-4">Registration Not Found</h1>
+                            <p class="text-gray-600 mb-4">The requested registration link is invalid.</p>
+                            <a href="${window.location.origin}" class="text-blue-600 hover:text-blue-800 font-semibold">&larr; Back to Registration Form</a>
+                        </div>
+                    `;
+                }
+            } catch (e) {
+                console.error("Error fetching document:", e);
+                showMessage("Error loading registration details.", 'error');
+            }
+        }
+
+        // Register a new player
+        registrationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!userId) {
+                showMessage("Authentication failed. Please refresh the page.", 'error');
+                return;
+            }
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const ageCategory = document.getElementById('ageCategory').value;
+            const gender = document.getElementById('gender').value;
+            const rating = document.getElementById('rating').value;
+            const mpesaCode = document.getElementById('mpesaCode').value;
+            
+            const playerDocRef = doc(db, `/artifacts/${appId}/public/data/chess_registrations`, userId);
+
+            try {
+                await setDoc(playerDocRef, {
+                    name: name,
+                    email: email,
+                    ageCategory: ageCategory,
+                    gender: gender,
+                    rating: rating ? parseInt(rating) : null,
+                    mpesaCode: mpesaCode,
+                    timestamp: new Date()
+                });
+
+                showMessage("Registration successful!");
+                registrationForm.reset();
+                
+                // Show the link section and generate the unique URL
+                linkSection.classList.remove('hidden');
+                const registrationUrl = `${window.location.origin}?registrationId=${userId}`;
+                registrationLinkInput.value = registrationUrl;
+
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                showMessage("Registration failed. Please try again.", 'error');
+            }
+        });
+
+        // Copy button functionality
+        copyButton.addEventListener('click', () => {
+            registrationLinkInput.select();
+            document.execCommand('copy');
+            showMessage("Link copied to clipboard!");
+        });
+
+        // Set up real-time listener for players
+        function setupRealtimeListener() {
+            const playersRef = collection(db, `/artifacts/${appId}/public/data/chess_registrations`);
+            
+            // onSnapshot will get all docs and listen for changes
+            onSnapshot(playersRef, (querySnapshot) => {
+                loadingSpinner.classList.add('hidden');
+                playerList.innerHTML = ''; // Clear the list
+                let players = [];
+                querySnapshot.forEach((doc) => {
+                    players.push(doc.data());
+                });
+
+                // Sort players by name
+                players.sort((a, b) => a.name.localeCompare(b.name));
+
+                if (players.length === 0) {
+                    playerList.innerHTML = `
+                        <div class="text-center text-gray-500 py-8">
+                            <p>No players registered yet.</p>
+                        </div>
+                    `;
+                } else {
+                    players.forEach(player => {
+                        const playerItem = document.createElement('div');
+                        playerItem.className = 'flex items-center space-x-4 p-4 bg-white rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md';
+                        playerItem.innerHTML = `
+                            <div class="w-10 h-10 flex-shrink-0 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-lg">
+                                ${player.name[0].toUpperCase()}
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">${player.name}</h3>
+                                <p class="text-sm text-gray-500">Age: ${player.ageCategory}, Gender: ${player.gender}</p>
+                                ${player.rating ? `<p class="text-sm text-gray-500">Rating: ${player.rating}</p>` : ''}
+                                <p class="text-sm text-gray-500">M-Pesa Code: ${player.mpesaCode}</p>
+                            </div>
+                        `;
+                        playerList.appendChild(playerItem);
+                    });
+                }
+            }, (error) => {
+                console.error("Error listening to Firestore: ", error);
+                showMessage("Could not fetch players. Please check your connection.", 'error');
+            });
+        }
+
+        // Initialize the app on window load
+        window.onload = initializeFirebase;
+
+    </script>
 </body>
 </html>
+
